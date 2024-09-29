@@ -90,7 +90,7 @@ mutation {
 
 ----------------------------TASKS-------------------------------
 
-Mutation för att lägga till uppgift till en användare. Här byter ut USER_ID mot användarens id.
+Lägga till en uppgift. Här byter ut USER_ID mot användarens id.
 
 mutation {
   addTask(title: "New Task", description: "Task description", status: "to-do", assignedTo: "USER_ID") {
@@ -143,9 +143,10 @@ query {
 }
 
 Uppdatera uppgift. När man ändrar status till done så skall dagens datum läggas till automatiskt. 
+Byt uy TASK_ID mot en uppgifts id. Samma gäller för USER_ID.
 
 mutation {
-  updateTask(id: "TASK_ID", title: "Updated Task", description: "Updated description", status: "in-progress", assignedTo: "USER_ID", finishedBy: ”VALFRITT_NAMN”) {
+  updateTask(id: "TASK_ID", title: "Updated Task", description: "Updated description", status: "in-progress", assignedTo: "USER_ID") {
     id
     title
     description
