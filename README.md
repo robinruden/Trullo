@@ -142,8 +142,7 @@ query {
   }
 }
 
-Uppdatera uppgift. När man ändrar status till done så skall dagens datum läggas till automatiskt. 
-Byt uy TASK_ID mot en uppgifts id. Samma gäller för USER_ID.
+Uppdatera uppgift. Byt uy TASK_ID mot en uppgifts id. Samma gäller för USER_ID.
 
 mutation {
   updateTask(id: "TASK_ID", title: "Updated Task", description: "Updated description", status: "in-progress", assignedTo: "USER_ID") {
