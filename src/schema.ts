@@ -15,7 +15,7 @@ const typeDefs = gql`
     status: String!
     assignedTo: User
     createdAt: String!
-    finishedBy: String!
+    finishedBy: String
   }
 
   type Query {

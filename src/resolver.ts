@@ -79,45 +79,11 @@ const resolvers = {
       return true;
     },
     addTask: async (_: unknown, { title, description, status, assignedTo }: AddTaskArgs): Promise<Document> => {
-      const newTask = new Task({
-        title,
-        description,
-        status,
-        assignedTo: assignedTo ? assignedTo : undefined, // optional field
-        createdAt: new Date(),
-      });
-      return await newTask.save();
+      return await new Task({ title, description, status, assignedTo, createdAt: new Date() }).save();
     },
-    updateTask: async (_: unknown, { id, title, description, status, assignedTo, finishedBy }: UpdateTaskArgs): Promise<Document | null> => {
-      // Fetch the current task to compare status
-      const currentTask = await Task.findById(id);
-
-      if (!currentTask) {
-        throw new Error("Task not found");
-      }
-
-      // Determine if we need to set finishedBy based on status change
-      const updateData: Partial<UpdateTaskArgs> = {
-        title,
-        description,
-        status,
-        assignedTo: assignedTo ? assignedTo : undefined,
-        finishedBy: finishedBy ? finishedBy : undefined, // If finishedBy is provided, use it
-      };
-
-      if (status && status.toLowerCase() === 'done' && !currentTask.finishedBy) {
-        // If the status is 'done' and it was not finished before, set the finishedBy date
-        updateData.finishedBy = new Date().toISOString();
-      }
-
-      // Update the task with the new data
-      const updatedTask = await Task.findByIdAndUpdate(
-        id,
-        updateData,
-        { new: true }
-      ).populate('assignedTo');
-
-      return updatedTask;
+    updateTask: async (_: unknown, { id, ...updateData }: UpdateTaskArgs): Promise<Document | null> => {
+      if (updateData.status === 'done') updateData.finishedBy = new Date().toISOString();
+      return await Task.findByIdAndUpdate(id, updateData, { new: true });
     },
     deleteTask: async (_: unknown, { id }: TaskArgs): Promise<Document | null> => {
       return await Task.findByIdAndRemove(id);
@@ -128,6 +94,7 @@ const resolvers = {
     },
   },
 };
+
 
 export { resolvers };
   
