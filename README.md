@@ -1,4 +1,4 @@
-Motivering till val av databas:
+Motivering till val av Api:
 Hade dålig koll på GraphQL så tänkte att det var ett bra tillfälle att göra så att man fick lite mindre dålig koll, helt enkelt.
 
 Paket som används:
