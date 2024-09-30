@@ -79,14 +79,31 @@ const resolvers = {
       return true;
     },
     addTask: async (_: unknown, { title, description, status, assignedTo }: AddTaskArgs): Promise<Document> => {
-      return await new Task({ title, description, status, assignedTo, createdAt: new Date() }).save();
+      const addTask = await new Task({ title, description, status, assignedTo, createdAt: new Date() }).save();
+      const addTask2 = await Task.findById(addTask.id).populate("assignedTo:")
+      return {
+        ...addTask2.toObject(),
+        id: addTask2._id.toString(),
+        createdAt: addTask2.createdAt.toLocaleString(),
+        finishedBy: addTask2.finishedBy ? new Date(addTask2.finishedBy).toLocaleString() : null
+      }
+      
     },
     updateTask: async (_: unknown, { id, ...updateData }: UpdateTaskArgs): Promise<Document | null> => {
       if (updateData.status === 'done') updateData.finishedBy = new Date().toISOString();
-      return await Task.findByIdAndUpdate(id, updateData, { new: true });
-    },
-    deleteTask: async (_: unknown, { id }: TaskArgs): Promise<Document | null> => {
-      return await Task.findByIdAndRemove(id);
+     /*  const objectId = new Types.objectId(id).toString(); */
+      const updatedTask = await Task.findByIdAndUpdate(id, updateData, { new: true });
+      if (!updatedTask) return null;
+
+      console.log('Task.findByIdAndUpdate:', updatedTask);
+
+      return {
+        ...updatedTask.toObject(),
+        id: updatedTask._id.toString(),
+        createdAt: updatedTask.createdAt.toLocaleString(),
+        finishedBy: updatedTask.finishedBy ? new Date(updatedTask.finishedBy).toLocaleString() : null
+      };
+      
     },
     deleteAllTasks: async (): Promise<boolean> => {
       await Task.deleteMany({});

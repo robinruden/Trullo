@@ -2,8 +2,8 @@ Motivering till val av Api:
 Hade dålig koll på GraphQL så tänkte att det var ett bra tillfälle att göra så att man fick lite mindre dålig koll, helt enkelt.
 
 Paket som används:
-Apollo-server-express: En extension till till Express för att kunna hantera GraphQL-förfrågningar.  
-dotenv: För att säkert kunna ”dölja” lösenordet.   
+Apollo-server-express: En extension till till Express för att kunna hantera GraphQL-förfrågningar.
+dotenv: För att säkert kunna ”dölja” lösenordet.
 graphql: För att kunna jobba med graphql. Förstår inte riktigt skillnaden mellan den och Apollo-server men när man har dom båda så funkar det i alla fall.
 Mongoose: För att kunna koppla upp mig till min MongoDB.
 Nodemon: Så att servern startas om automatiskt.
@@ -142,18 +142,14 @@ query {
   }
 }
 
-Uppdatera uppgift. Byt uy TASK_ID mot en uppgifts id. Samma gäller för USER_ID.
+Uppdatera uppgift. Byt uy TASK_ID mot en uppgifts id. 
 
 mutation {
-  updateTask(id: "TASK_ID", title: "Updated Task", description: "Updated description", status: "in-progress", assignedTo: "USER_ID") {
+  updateTask(id: "TASK_ID", status: "done") {
     id
     title
     description
     status
-    assignedTo {
-      id
-      name
-    }
     createdAt
     finishedBy
   }
